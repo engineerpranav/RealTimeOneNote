@@ -10,6 +10,26 @@ let upload = document.querySelector(".upload");
 let pencilFlag = false;
 let eraserFlag = false;
 
+const generateBtn = document.getElementById("generateLink");
+const sendMailBtn = document.getElementById("sendMail");
+const emailInput = document.getElementById("emailInput");
+
+let generatedLink = "";
+
+generateBtn.addEventListener("click", async () => {
+  const res = await fetch("/create");
+  const data = await res.json();
+  generatedLink = data.link;
+  
+  // Show modal instead of alert
+  document.getElementById('shareLink').value = generatedLink;
+  document.getElementById('linkPopup').classList.add('show');
+  document.getElementById('overlay').classList.add('show');
+  
+  // Hide the generate button
+  generateBtn.style.display = 'none';
+});
+
 optionsCont.addEventListener("click", (e) => {
     // true -> tools show, false -> hide tools
     optionsFlag = !optionsFlag;
@@ -148,3 +168,32 @@ function dragAndDrop(element, event) {
         element.onmouseup = null;
     };
 }
+
+// Copy button
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const linkInput = document.getElementById('shareLink');
+    linkInput.select();
+    navigator.clipboard.writeText(linkInput.value).then(() => {
+        this.textContent = 'Copied!';
+        this.classList.add('copied');
+        window.open(linkInput.value, '_blank');
+
+        setTimeout(() => {
+            this.textContent = 'Copy';
+            this.classList.remove('copied');
+        }, 2000);
+    });
+});
+
+// Close popup
+document.getElementById('closePopup').addEventListener('click', function() {
+    document.getElementById('linkPopup').classList.remove('show');
+    document.getElementById('overlay').classList.remove('show');
+});
+
+document.getElementById('overlay').addEventListener('click', function() {
+    document.getElementById('linkPopup').classList.remove('show');
+    this.classList.remove('show');
+});
+
+// Check if URL has roomId parameter and hide button

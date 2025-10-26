@@ -36,13 +36,23 @@
     <div class="eraser-tool-cont">
         <input type="range" min="2" max="10" value="3" class="eraser-width">
     </div>
+    <button id="generateLink">Share Realtime Link</button>
+    <!-- Link Popup -->
+<div class="overlay" id="overlay"></div>
+<div class="link-popup" id="linkPopup"> 
+    <h3>Share this link with others!</h3>
+    <div class="link-input-container">
+        <input type="text" class="link-input" id="shareLink" readonly>
+        <button class="copy-btn" id="copyBtn">Copy</button>
+    </div>
+    <button class="close-popup" id="closePopup">Close</button>
+</div>
 
     <canvas></canvas>
     <script src="https://cdn.socket.io/4.2.0/socket.io.min.js" integrity="sha384-PiBR5S00EtOj2Lto9Uu81cmoyZqR57XcOna1oAuVuIEjzj0wpqDVfD0JA9eXlRsj" crossorigin="anonymous"></script>
-    <script>
-        let socket = io.connect("https://realtimeonenote.onrender.com");
-    </script>
+     
     <script src="./tools.js"></script>
     <script src="./canvas.js"></script>
+
 </body>
 </html>

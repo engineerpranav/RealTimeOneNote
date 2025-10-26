@@ -1,3 +1,12 @@
+const socket = io.connect(window.location.origin);
+const roomId = window.location.pathname.split("/").pop();
+socket.emit("join-room", roomId);
+
+    if (roomId) {
+        // Hide the generate button if roomId exists in URL
+        document.getElementById('generateLink').style.display = 'none';
+    }
+
 let canvas = document.querySelector("canvas");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -30,7 +39,8 @@ canvas.addEventListener("mousedown", (e) => {
     mouseDown = true;
     let data = {
         x: e.clientX,
-        y: e.clientY
+        y: e.clientY,
+         roomId: roomId
     }
     // send data to server
     socket.emit("beginPath", data);
@@ -40,6 +50,7 @@ canvas.addEventListener("mousemove", (e) => {
         let data = {
             x: e.clientX,
             y: e.clientY,
+             roomId: roomId,
             color: eraserFlag ? eraserColor : penColor,
             width: eraserFlag ? eraserWidth : penWidth
         }
@@ -59,7 +70,8 @@ undo.addEventListener("click", (e) => {
     // track action
     let data = {
         trackValue: track,
-        undoRedoTracker
+        undoRedoTracker,
+         roomId: roomId
     }
     socket.emit("redoUndo", data);
 })
@@ -68,7 +80,8 @@ redo.addEventListener("click", (e) => {
     // track action
     let data = {
         trackValue: track,
-        undoRedoTracker
+        undoRedoTracker,
+         roomId: roomId
     }
     socket.emit("redoUndo", data);
 })
@@ -134,11 +147,15 @@ download.addEventListener("click", (e) => {
 
 socket.on("beginPath", (data) => {
     // data -> data from server
+    console.log(data)
     beginPath(data);
 })
 socket.on("drawStroke", (data) => {
+        console.log(data)
     drawStroke(data);
+    
 })
 socket.on("redoUndo", (data) => {
+        console.log(data)
     undoRedoCanvas(data);
 })
