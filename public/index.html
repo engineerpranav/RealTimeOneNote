@@ -1,240 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OneNote Pro</title>
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="icon" href="./Icons/favicon.ico" type="image/x-icon" />
-
-  <style>
-    /* RESET */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: "Inter", sans-serif;
-    }
-
-    body {
-      height: 100vh;
-      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-      overflow: hidden;
-    }
-
-    /* Floating Tools Bar */
-    .options-cont {
-      height: 3.8rem;
-      width: 3.8rem;
-      background: rgba(255, 255, 255, 0.5);
-      backdrop-filter: blur(8px);
-      position: absolute;
-      top: 1.5rem;
-      left: 2rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 50%;
-      font-size: 1.4rem;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .options-cont:hover {
-      transform: scale(1.1);
-      background: rgba(255, 255, 255, 0.7);
-    }
-
-    /* TOOLBAR */
-    .tools-cont {
-      display: flex;
-      align-items: center;
-      height: 4.5rem;
-      width: 60vw;
-      background: rgba(255, 255, 255, 0.55);
-      backdrop-filter: blur(12px);
-      border-radius: 2rem;
-      justify-content: space-around;
-      position: absolute;
-      top: 1.5rem;
-      left: 20vw;
-      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-      padding: 0 1rem;
-    }
-
-    .tools-cont img {
-      width: 2rem;
-      height: 2rem;
-      cursor: pointer;
-      transition: transform 0.2s ease, filter 0.3s ease;
-      filter: brightness(0.7);
-    }
-
-    .tools-cont img:hover {
-      transform: translateY(-3px) scale(1.15);
-      filter: brightness(1);
-    }
-
-    /* PENCIL TOOL */
-    .pencil-tool-cont, .eraser-tool-cont {
-      background: rgba(255, 255, 255, 0.55);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      border-radius: 1rem;
-      padding: 0.8rem 1rem;
-      position: absolute;
-      top: 7rem;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .pencil-tool-cont {
-      left: 25vw;
-      width: 9rem;
-    }
-
-    .eraser-tool-cont {
-      left: 36vw;
-      width: 8rem;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    input[type="range"] {
-      width: 100%;
-      appearance: none;
-      height: 6px;
-      border-radius: 5px;
-      background: linear-gradient(to right, #007bff, #6610f2);
-      outline: none;
-      cursor: pointer;
-    }
-
-    .pencil-color-cont {
-      display: flex;
-      justify-content: space-around;
-      width: 100%;
-      margin-top: 0.8rem;
-    }
-
-    .pencil-color {
-      width: 1.6rem;
-      height: 1.6rem;
-      border-radius: 50%;
-      border: 2px solid white;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-
-    .pencil-color:hover {
-      transform: scale(1.2);
-    }
-
-    .black { background: #000; }
-    .red { background: #f44336; }
-    .blue { background: #2196f3; }
-
-    /* STICKY NOTE */
-    .sticky-cont {
-      height: 15rem;
-      width: 15rem;
-      position: absolute;
-      background: #fff3cd;
-      border-radius: 0.8rem;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      animation: pop 0.3s ease;
-    }
-
-    @keyframes pop {
-      from { transform: scale(0.8); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    .header-cont {
-      height: 2rem;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      background: #ffeb3b;
-      padding-right: 0.5rem;
-      border-top-left-radius: 0.8rem;
-      border-top-right-radius: 0.8rem;
-    }
-
-    .header-cont > * {
-      height: 1rem;
-      width: 1rem;
-      margin-left: 0.3rem;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-
-    .minimize { background-color: #4caf50; }
-    .remove { background-color: #f44336; }
-
-    textarea {
-      height: calc(100% - 2rem);
-      width: 100%;
-      border: none;
-      outline: none;
-      resize: none;
-      padding: 0.8rem;
-      font-size: 1rem;
-      background: transparent;
-    }
-
-    canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" href="./Icons/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="style.css">
+    <title>Openboard_Clone</title>
 </head>
 <body>
-  <div class="options-cont"><i class="fas fa-bars"></i></div>
-
-  <div class="tools-cont scale-tools">
-    <img class="pencil" src="Icons/Pencil.svg" alt="Pencil">
-    <img class="eraser" src="Icons/Eraser.svg" alt="Eraser">
-    <img class="download" src="Icons/Download.svg" alt="Download">
-    <img class="upload" src="Icons/Upload.svg" alt="Upload">
-    <img class="sticky" src="Icons/StickyNote.svg" alt="Sticky">
-    <img class="redo" src="Icons/Redo.svg" alt="Redo">
-    <img class="undo" src="Icons/Undo.svg" alt="Undo">
-  </div>
-
-  <div class="pencil-tool-cont">
-    <input type="range" min="2" max="10" value="3" class="pencil-width">
-    <div class="pencil-color-cont">
-      <div class="black pencil-color"></div>
-      <div class="red pencil-color"></div>
-      <div class="blue pencil-color"></div>
+    <div class="options-cont">
+        <i class="fas fa-bars"></i>
     </div>
-  </div>
+    <div class="tools-cont scale-tools">
+        <img class="pencil" src="Icons/Pencil.svg">
+        <img class="eraser" src="Icons/Eraser.svg">
+        <img class="download" src="Icons/Download.svg">
+        <img class="upload" src="Icons/Upload.svg">
+        <img class="sticky" src="Icons/StickyNote.svg">
+        <img class="redo" src="Icons/Redo.svg">
+        <img class="undo" src="Icons/Undo.svg">
+    </div>
 
-  <div class="eraser-tool-cont">
-    <input type="range" min="2" max="10" value="3" class="eraser-width">
-  </div>
+    <div class="pencil-tool-cont">
+        <div class="pencil-width-cont">
+            <input type="range" min="2" max="10" value="3" class="pencil-width">
+        </div>
+        <div class="pencil-color-cont">
+            <div class="black pencil-color"></div>
+            <div class="red pencil-color"></div>
+            <div class="blue pencil-color"></div>
+        </div>
+    </div>
+    <div class="eraser-tool-cont">
+        <input type="range" min="2" max="10" value="3" class="eraser-width">
+    </div>
 
-  <canvas></canvas>
-
-  <script src="https://cdn.socket.io/4.2.0/socket.io.min.js"></script>
-  <script>
-    let socket = io.connect("https://realtimeonenote.onrender.com");
-  </script>
-  <script src="./tools.js"></script>
-  <script src="./canvas.js"></script>
+    <canvas></canvas>
+    <script src="https://cdn.socket.io/4.2.0/socket.io.min.js" integrity="sha384-PiBR5S00EtOj2Lto9Uu81cmoyZqR57XcOna1oAuVuIEjzj0wpqDVfD0JA9eXlRsj" crossorigin="anonymous"></script>
+    <script>
+        let socket = io.connect("https://realtimeonenote.onrender.com");
+    </script>
+    <script src="./tools.js"></script>
+    <script src="./canvas.js"></script>
 </body>
 </html>
