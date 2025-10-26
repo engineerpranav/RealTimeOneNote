@@ -22,15 +22,11 @@ let penColor = "red";
 let eraserColor = "white";
 let penWidth = pencilWidthElem.value;
 let eraserWidth = eraserWidthElem.value;
-
 let undoRedoTracker = []; //Data
 let track = 0; // Represent which action from tracker array
-
 let mouseDown = false;
-
 // API
 let tool = canvas.getContext("2d");
-
 tool.strokeStyle = penColor;
 tool.lineWidth = penWidth;
 
@@ -40,7 +36,7 @@ canvas.addEventListener("mousedown", (e) => {
     let data = {
         x: e.clientX,
         y: e.clientY,
-         roomId: roomId
+        roomId: roomId
     }
     // send data to server
     socket.emit("beginPath", data);
@@ -50,7 +46,7 @@ canvas.addEventListener("mousemove", (e) => {
         let data = {
             x: e.clientX,
             y: e.clientY,
-             roomId: roomId,
+            roomId: roomId,
             color: eraserFlag ? eraserColor : penColor,
             width: eraserFlag ? eraserWidth : penWidth
         }
@@ -59,7 +55,6 @@ canvas.addEventListener("mousemove", (e) => {
 })
 canvas.addEventListener("mouseup", (e) => {
     mouseDown = false;
-
     let url = canvas.toDataURL();
     undoRedoTracker.push(url);
     track = undoRedoTracker.length-1;
@@ -87,6 +82,7 @@ redo.addEventListener("click", (e) => {
 })
 
 function undoRedoCanvas(trackObj) {
+    console.log(trackObj)
     track = trackObj.trackValue;
     undoRedoTracker = trackObj.undoRedoTracker;
 
@@ -94,6 +90,7 @@ function undoRedoCanvas(trackObj) {
     let img = new Image(); // new image reference element
     img.src = url;
     img.onload = (e) => {
+        tool.clearRect(0, 0, canvas.width, canvas.height);
         tool.drawImage(img, 0, 0, canvas.width, canvas.height);
     }
 }
@@ -137,7 +134,6 @@ eraser.addEventListener("click", (e) => {
 
 download.addEventListener("click", (e) => {
     let url = canvas.toDataURL();
-
     let a = document.createElement("a");
     a.href = url;
     a.download = "board.jpg";
@@ -146,16 +142,12 @@ download.addEventListener("click", (e) => {
 
 
 socket.on("beginPath", (data) => {
-    // data -> data from server
-    console.log(data)
     beginPath(data);
 })
 socket.on("drawStroke", (data) => {
-        console.log(data)
     drawStroke(data);
     
 })
 socket.on("redoUndo", (data) => {
-        console.log(data)
     undoRedoCanvas(data);
 })
